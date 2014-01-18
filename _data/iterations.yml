@@ -1,0 +1,10 @@
+- identifier: 1
+  date: 2014-03-15 20:35:50
+  description: Version 1.00 Alpha
+  stories: [1000, 1001]
+  status: Released
+- identifier: 2
+  date: 2014-05-15 20:35:30
+  description: Version 1.00 Beta
+  stories: [1000, 1001]
+  status: Work in Progress

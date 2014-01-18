@@ -1,0 +1,129 @@
+---
+layout: default
+title: HOME
+project: Generic
+tagline: Generic Project to demonstrate a project site in Jekyll
+---
+
+<div class="row clearfix">
+	<div class="col-md-12 column">
+		<div class="row">
+			<div class="col-md-8">
+				<h1>Latest user stories:</h1>
+				{% for post in site.posts limit:5 %}
+				<h3>
+					<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+				</h3>
+				<span>{{ post.date | date_to_string }}</span>
+				<p>
+					{{ post.summary | truncatewords: 50 }}
+				</p>
+				{% endfor %}
+				<h1>User stories by category:</h1>
+				<ul>
+				{% for category in site.categories %}
+				  <li><a name="{{ category | first }}">{{ category | first | capitalize }}</a>
+					<ul>
+					{% for posts in category %}
+					  {% for post in posts %}
+						<li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+					  {% endfor %}
+					{% endfor %}
+					</ul>
+				  </li>
+				{% endfor %}
+				</ul>
+				<h1>User stories by tag:</h1>
+				<ul>
+				{% for tag in site.tags %}
+				  <li><a name="{{ tag | first }}">{{ tag | first | capitalize }}</a>
+					<ul>
+					{% for posts in tag %}
+					  {% for post in posts %}
+						<li><a href="{{ post.url }}">{{ post.title }}</a></li>
+					  {% endfor %}
+					{% endfor %}
+					</ul>
+				  </li>
+				{% endfor %}
+				</ul>
+				<h1>User stories by month:</h1>
+				{% for post in site.posts %}
+				  {% capture currentyear %}{{post.date | date: "%B %Y"}}{% endcapture %}
+				  {% if currentyear != year %}
+					{% unless forloop.first %}</ul>{% endunless %}
+					<h5><a name="{{ currentyear }}">{{ currentyear }}</a></h5>
+					<ul>
+					{% capture year %}{{currentyear}}{% endcapture %} 
+				  {% endif %}
+					<li><a href="{{ post.url }}">{{ post.title }}</a></li>
+				{% endfor %}
+			</div>
+			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+					<h3 class="panel-title">
+					Players & Roles</h3>
+					</div>
+					<div class="panel-body">
+						{% for player in site.data.players %}
+						<div class="media">
+						  <a class="pull-left" href="#">
+							<img class="media-object" src="http://placehold.it/64x64/" alt="64x64">
+						  </a>
+						  <div class="media-body">
+							<h4 class="media-heading">{{ player.role }}</h4>
+							{{ player.description }}
+						  </div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+					<h3 class="panel-title">
+					User stories by categories</h3>
+					</div>
+					<div class="panel-body">
+					<ul>
+					{% for category in site.categories %}
+					<li><a href="#{{ category | first }}">{{ category | first  | capitalize}}&nbsp;({{ category.size }})</a></li>
+					{% endfor %}
+					</ul>
+					</div>
+				</div>
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+					<h3 class="panel-title">
+					User stories by tags</h3>
+					</div>
+					<div class="panel-body">
+					<ul>
+					{% for tag in site.tags %}
+					<li><a href="#{{ tag | first }}">{{ tag | first  | capitalize}}&nbsp;({{ tag.size }})</a></li>
+					{% endfor %}
+					</ul>
+					</div>
+				</div>
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+					<h3 class="panel-title">
+					User stories by months</h3>
+					</div>
+					<div class="panel-body">
+					<ul>
+					{% for post in site.posts %}
+					  {% capture currentyear %}{{post.date | date: "%B %Y"}}{% endcapture %}
+					  {% if currentyear != year2 %}
+						<li><a href="#{{ currentyear }}">{{ currentyear}}</a></li>
+						{% capture year2 %}{{currentyear}}{% endcapture %} 
+					  {% endif %}
+					{% endfor %}
+					</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

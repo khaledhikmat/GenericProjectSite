@@ -1,0 +1,166 @@
+<!-- We except the variable 'story' to contain the desired user story -->
+
+This user story has the following parts:
+<ul>
+<li><a href="#main">Main</a></li>
+{% if story.attachments %}
+<li><a href="#attachments">Attachments</a></li>
+{% endif %}
+{% if story.illustrations %}
+<li><a href="#illustrations">Illustrations</a></li>
+{% endif %}
+{% if story.estimates %}
+<li><a href="#estimates">Estimation Rounds</a></li>
+{% endif %}
+<li><a href="#comments">Comments</a></li>
+</ul>
+<hr>
+
+<a id="main">Main</a> 
+<div {% if story.type == 'Feature' %} class="panel panel-primary" {% elsif story.type == 'Defect' %} class="panel panel-danger" {% else %} class="panel panel-default" {% endif %}>
+	<div class="panel-heading">
+	<h3 class="panel-title">Identifier: {{ story.identifier }} - Categories: {{ story.categories }}</h3>
+	</div>
+	<div class="panel-body">
+	{{ story.description }}<br />
+{% if story.criterias != empty %}
+<br>Criteria:<br><br>
+{% for criteria in story.criterias %}
+<div class="panel panel-default">
+<div class="panel-body">
+{{ criteria.description }}
+</div>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+<div class="panel-footer">Owner: {{ story.owner }} - Estimated Story Points: {{ story.points }}</div>
+</div>
+<hr>
+
+{% if story.attachments %}
+<a id="attachments">Attachments</a> 
+<table class="table table-hover table-condensed table-striped">
+<thead>
+	<tr>
+		<th>
+			#
+		</th>
+		<th>
+			Item
+		</th>
+		<th>
+			Description
+		</th>
+		<th>
+			Release Date
+		</th>
+	</tr>
+</thead>
+<tbody>
+{% for attachment in story.attachments %}
+<tr>
+	<td>
+		{{ forloop.index }}
+	</td>
+	<td>
+		<a href="{{ site.baseurl }}{{ site.url }}/files/{{ story.identifier }}/{{ attachment.name }}" target="_blank">{{ attachment.name }}</a>
+	</td>
+	<td>
+		{{ attachment.description }}
+	</td>
+	<td>
+		{{ attachment.date | date_to_string }}
+	</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<hr>
+{% endif %}
+
+<!-- Images must be 300 x 200 and there should be 3 images-->
+<!--<img data-src="{{ site.baseurl }}{{ site.url }}/images/{{ story.identifier }}/{{ illustration.image }}" alt="{{ illustration.name }}">-->
+<!-- <img alt="300x200" src="http://lorempixel.com/300/200/city" /> -->
+{% if story.illustrations %}
+<a id="illustrations">Illustrations</a> 
+<div class="row">
+{% for illustration in story.illustrations %}
+  <div {% if story.illustrations.size == 1 %} class="col-md-12" {% elsif story.illustrations.size == 2 %} class="col-md-6" {% else %} class="col-md-4" {% endif %}>
+    <div class="thumbnail">
+      <img alt="300x200" src="http://placehold.it/300/200/" />
+      <div class="caption">
+        <h3>{{ illustration.name }}</h3>
+        <p>{{ illustration.description }}</p>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+<hr>
+{% endif %}
+
+{% if story.estimates %}
+<a id="estimates">Estimation Rounds</a> 
+{% for estimate in story.estimates %}
+Round: {{ estimate.round }}<br />
+Scores: <br />
+<table class="table table-hover table-condensed table-striped">
+<thead>
+<tr>
+	<th>
+		Estimator
+	</th>
+	<th>
+		Points
+	</th>
+</tr>
+</thead>
+<tbody>
+{% for score in estimate.scores %}
+{% capture average %}{{ average | plus: score.points }}{% endcapture %}
+{% capture estimates %}{{ forloop.length }}{% endcapture %}
+<tr>
+	<td>
+		{{ score.estimator }}
+	</td>
+	<td>
+		{{ score.points }}
+	</td>
+</tr>
+{% endfor %}
+<tr class="warning">
+	<td>
+		Average
+	</td>
+	<td>
+		{{ average  | divided_by: estimates }}
+	</td>
+</tr>
+</tbody>
+</table>
+{% capture average %}{{ 0 }}{% endcapture %}
+{% endfor %}
+<hr>
+{% endif %}
+
+<a id="comments">Comments</a> 
+<div id="comments">
+<h3>Let us discuss!</h3>
+<p>
+Please see my <a href="/comment-policy/">comment policy</a> if this is your first time here or if you have any questions regarding comments.
+</p>
+ <div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'cxxxx'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>    

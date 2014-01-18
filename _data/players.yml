@@ -1,0 +1,12 @@
+- role: Unsigned User
+  description: A user who is browsing the site
+- role: Silver Member 
+  description: A signed-in user with a SILVER tier
+- role: Gold Member 
+  description: A signed-in user with a GOLD tier
+- role: Platinum Member 
+  description: A signed-in user with a PLATINUM tier
+- role: Executive
+  description: Company Executive
+- role: Admin
+  description: Site Administrator
