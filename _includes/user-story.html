@@ -81,21 +81,22 @@ This user story has the following parts:
 
 <!-- Images must be 300 x 200 and there should be 3 images-->
 <!--<img data-src="{{ site.baseurl }}{{ site.url }}/images/{{ story.identifier }}/{{ illustration.image }}" alt="{{ illustration.name }}">-->
-<!-- <img alt="300x200" src="http://lorempixel.com/300/200/city" /> -->
 {% if story.illustrations %}
 <a id="illustrations">Illustrations</a> 
 <div class="row">
+<div class="highslide-gallery">
 {% for illustration in story.illustrations %}
-  <div {% if story.illustrations.size == 1 %} class="col-md-12" {% elsif story.illustrations.size == 2 %} class="col-md-6" {% else %} class="col-md-4" {% endif %}>
-    <div class="thumbnail">
-      <img alt="300x200" src="http://placehold.it/300/200/" />
-      <div class="caption">
-        <h3>{{ illustration.name }}</h3>
-        <p>{{ illustration.description }}</p>
-      </div>
-    </div>
-  </div>
+<div {% if story.illustrations.size == 1 %} class="col-md-12" {% elsif story.illustrations.size == 2 %} class="col-md-6" {% else %} class="col-md-4" {% endif %}>
+<a href="http://placehold.it/800/400/" class="highslide" onclick="return hs.expand(this)">
+	<img src="http://placehold.it/200/100/" alt="Highslide JS"
+		title="Click to enlarge" />
+</a>
+<div class="highslide-caption">
+	{{ illustration.name }} - {{ illustration.description }}
+</div>
+</div>
 {% endfor %}
+</div>
 </div>
 <hr>
 {% endif %}
