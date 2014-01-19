@@ -1,4 +1,4 @@
-name: Symphony Backend
+name: Generic Project
 markdown: redcarpet
 pygments: true
 permalink: /:year-:month-:day/:title

@@ -9,13 +9,13 @@
 
     <!-- BOOTSTRAP stuff -->
 	<link href="{{ site.baseurl }}/libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="{{ site.baseurl }}/css/style.css" rel="stylesheet">
+	<link href="{{ site.baseurl }}/libraries/bootstrap/css/style.css" rel="stylesheet">
 
     <!-- HIGHSLIDE stuff -->
 	<link href="{{ site.baseurl }}/libraries/highslide/highslide.css" rel="stylesheet"/>
 
     <!-- MY APP stuff -->
-	<link href="{{ site.baseurl }}/css/app.css" rel="stylesheet">
+	<link href="{{ site.baseurl }}/stylesheets/app.css" rel="stylesheet">
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -38,7 +38,7 @@
 <!-- DISCUSS stuff -->
  <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'xxxxxxx'; // required: replace example with your forum shortname
+    var disqus_shortname = '<add-your-own>'; // required: replace example with your forum shortname
 
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function () {
@@ -72,10 +72,98 @@ if (hs.addSlideshow) hs.addSlideshow({
 		hideOnMouseOut: true
 	}
 });
+</script>
 
+<!-- My APP Stuff -->
+<!-- TODO: Move to a script file -->
+<script type="text/javascript">
+function setCookie(cname,cvalue,exdays) {
+	var d = new Date();
+	d.setTime(d.getTime()+(exdays*24*60*60*1000));
+	var expires = "expires="+d.toGMTString();
+	document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function getCookie(cname) {
+	var name = cname + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0; i<ca.length; i++) {
+	  var c = ca[i].trim();
+	  if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+	}
+
+	return "";
+}
+
+function isCookie(cname) {
+	var mycookie=getCookie(cname);
+	if (mycookie != "") 
+		return true;
+	else
+		return false;
+}
+
+function maskPage () {
+	$('#mask').show();
+}
+
+function unmaskPage () {
+	$('#mask').hide();
+}
+
+function validateCredentials (uid, pwd) {
+	if (uid == 'generic' && pwd == 'site') {
+		// TODO: Create a cookie
+		setCookie('{{ site.name }}', uid, 2);
+	}
+}
+
+function isValidCredentails () {
+	return isCookie('{{ site.name }}');
+}
+
+function checkCredentials () {
+	if (isValidCredentails()) {
+		console.log('checkCredentials: hiding');
+		$('#siteLoginDlg').modal().hide();
+		unmaskPage(); 
+	} else {
+		console.log('checkCredentials: showing');
+		maskPage();
+		$('#siteLoginDlg').modal().show();
+	}
+}
 </script>
 
 <body>
+<div id="mask"></div>
+
+<div class="modal fade" id="siteLoginDlg" role="dialog" aria-labelledby="siteLoginDlgLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="siteLoginDlgLabel">
+					Please sign in to use {{ site.name }}
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						 <label for="siteLoginDlgUserId">User Id</label><input class="form-control" id="siteLoginDlgUserId" type="text" />
+					</div>
+					<div class="form-group">
+						 <label for="siteLoginDlgPassword">Password</label><input class="form-control" id="siteLoginDlgPassword" type="password" />
+					</div>
+					<button id="siteLoginDlgSubmit" type="submit" class="btn btn-default">Submit</button>
+				</form>
+			</div>
+			<div class="modal-footer">
+			<!-- add something here -->
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
@@ -108,5 +196,7 @@ if (hs.addSlideshow) hs.addSlideshow({
 	</div>
 	{{ content }}
 </div>
+<!-- Enforce the password on every page -->
+{% include enforce-password.html %}
 </body>
 </html>

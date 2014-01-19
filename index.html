@@ -127,3 +127,11 @@ tagline: Generic Project to demonstrate a project site in Jekyll
 	</div>
 </div>
 
+<script>
+// Very nice way of sending the data into JavaScript - use the jsonify filter available in Jekyll! 
+// We can use this to do data charting and other interesting stuff since the data is now available to JavaScript.
+var players = {{ site.data.players | jsonify }};
+for (x in players) {
+	console.log("Role : " + players[x].role + " = " +  players[x].description);
+}
+</script>
