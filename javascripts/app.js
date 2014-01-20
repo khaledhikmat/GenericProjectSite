@@ -44,7 +44,9 @@ function isValidCredentials (success, failure) {
 		// Recover the uid and pwd from the cookie
 		var uid = getCookie('{{ site.name }}-uid');
 		var pwd = getCookie('{{ site.name }}-pwd');
-		// TODO: Use the uid/pwd in an AJAX call to check them against a remote server
+		// TODO: Use the uid/pwd in an AJAX call to check them against a remote service. Make sure you include the site name in the request.
+		// TODO: My remote service authenticates the request and returns OK or ERROR
+		// TODO: My remote service resets the password every 3 days via a scheduler and emails its users the new passwords
 		// For now, let it go and success call back
 		success();
 	}
