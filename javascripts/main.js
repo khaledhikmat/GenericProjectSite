@@ -1,8 +1,13 @@
 var mainService = new function () {
-	var setCookie = function (cname,cvalue,exdays) {	var d = new Date();
+	var setCookie = function (cname,cvalue,exdays) {	
+	    var d = new Date();
 		d.setTime(d.getTime()+(exdays*24*60*60*1000));
 		var expires = "expires="+d.toGMTString();
 		document.cookie = cname + "=" + cvalue + "; " + expires;
+	},
+
+	deleteCookie = function (cname) {	
+		setCookie(cname, "", -1);
 	},
 
 	getCookie = function (cname) {
@@ -64,10 +69,17 @@ var mainService = new function () {
 
 	checkCredentials = function () {
 		isValidCredentials(isValidCredentialsSuccess, isValidCredentialsFailure);
+	},
+
+	deleteCredentials = function () {
+		deleteCookie('{{ site.name }}-uid');
+		deleteCookie('{{ site.name }}-pwd');
+		checkCredentials();
 	};
 
     return {
         setCredentials: setCredentials,
-        checkCredentials: checkCredentials
+        checkCredentials: checkCredentials,
+        deleteCredentials: deleteCredentials
 	};
 }();

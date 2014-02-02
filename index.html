@@ -9,7 +9,7 @@ tagline: Generic Project to demonstrate a project site in Jekyll
 	<div class="col-md-12 column">
 		<div class="row">
 			<div class="col-md-8">
-				<h1>Latest user stories:</h1>
+				<h1>Latest entries:</h1>
 				{% for post in site.posts limit:5 %}
 				<h3>
 					<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
@@ -19,36 +19,10 @@ tagline: Generic Project to demonstrate a project site in Jekyll
 					{{ post.summary | truncatewords: 50 }}
 				</p>
 				{% endfor %}
-				<h1>User stories by category:</h1>
-				<ul>
-				{% for category in site.categories %}
-				  <li><a name="{{ category | first }}">{{ category | first | capitalize }}</a>
-					<ul>
-					{% for posts in category %}
-					  {% for post in posts %}
-						<li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
-					  {% endfor %}
-					{% endfor %}
-					</ul>
-				  </li>
-				{% endfor %}
-				</ul>
-				<h1>User stories by tag:</h1>
-				<ul>
-				{% for tag in site.tags %}
-				  <li><a name="{{ tag | first }}">{{ tag | first | capitalize }}</a>
-					<ul>
-					{% for posts in tag %}
-					  {% for post in posts %}
-						<li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
-					  {% endfor %}
-					{% endfor %}
-					</ul>
-				  </li>
-				{% endfor %}
-				</ul>
-				<h1>User stories by month:</h1>
-				{% for post in site.posts %}
+
+				<h1>Entries by month:</h1>
+				{% assign sortedPostsByDate = site.posts | sort:"date" %}
+				{% for post in sortedPostsByDate reversed %}
 				  {% capture currentyear %}{{post.date | date: "%B %Y"}}{% endcapture %}
 				  {% if currentyear != year %}
 					{% unless forloop.first %}</ul>{% endunless %}
@@ -58,8 +32,76 @@ tagline: Generic Project to demonstrate a project site in Jekyll
 				  {% endif %}
 					<li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
 				{% endfor %}
+				</ul>
+
+				<h1>Entries by category:</h1>
+				<ul>
+				{% for category in site.categories %}
+				  <li><a name="{{ category | first }}">{{ category | first | capitalize }}</a>
+					<ul>
+					{% for post in category[1] %}
+						<li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+					{% endfor %}
+					</ul>
+				  </li>
+				{% endfor %}
+				</ul>
+
+				<h1>Entries by tag:</h1>
+				<ul>
+				{% for tag in site.tags %}
+				  <li><a name="{{ tag | first }}">{{ tag | first | capitalize }}</a>
+					<ul>
+					{% for post in tag[1] %}
+						<li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+					{% endfor %}
+					</ul>
+				  </li>
+				{% endfor %}
+				</ul>
 			</div>
 			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+					<h3 class="panel-title">Archive</h3>
+					</div>
+					<div class="panel-body">
+					<ul>
+					{% assign sortedPostsByDate = site.posts | sort:"date" %}
+					{% for post in sortedPostsByDate reversed %}
+					  {% capture currentyear %}{{post.date | date: "%B %Y"}}{% endcapture %}
+					  {% if currentyear != year2 %}
+						<li><a href="#{{ currentyear }}">{{ currentyear}}</a></li>
+						{% capture year2 %}{{currentyear}}{% endcapture %} 
+					  {% endif %}
+					{% endfor %}
+					</ul>
+					</div>
+				</div>
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+					<h3 class="panel-title">Categories</h3>
+					</div>
+					<div class="panel-body">
+					<ul>
+					{% for category in site.categories %}
+					<li><a href="#{{ category | first }}">{{ category[0] | capitalize }}&nbsp;({{ category[1] | size }})</a></li>
+					{% endfor %}
+					</ul>
+					</div>
+				</div>
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+					<h3 class="panel-title">Tags</h3>
+					</div>
+					<div class="panel-body">
+					<ul>
+					{% for tag in site.tags %}
+					<li><a href="#{{ tag | first }}">{{ tag[0] | capitalize }}&nbsp;({{ tag[1] | size }})</a></li>
+					{% endfor %}
+					</ul>
+					</div>
+				</div>
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 					<h3 class="panel-title">
@@ -77,49 +119,6 @@ tagline: Generic Project to demonstrate a project site in Jekyll
 						  </div>
 						</div>
 						{% endfor %}
-					</div>
-				</div>
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-					<h3 class="panel-title">
-					User stories by categories</h3>
-					</div>
-					<div class="panel-body">
-					<ul>
-					{% for category in site.categories %}
-					<li><a href="#{{ category | first }}">{{ category | first  | capitalize}}&nbsp;({{ category.size }})</a></li>
-					{% endfor %}
-					</ul>
-					</div>
-				</div>
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-					<h3 class="panel-title">
-					User stories by tags</h3>
-					</div>
-					<div class="panel-body">
-					<ul>
-					{% for tag in site.tags %}
-					<li><a href="#{{ tag | first }}">{{ tag | first  | capitalize}}&nbsp;({{ tag.size }})</a></li>
-					{% endfor %}
-					</ul>
-					</div>
-				</div>
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-					<h3 class="panel-title">
-					User stories by months</h3>
-					</div>
-					<div class="panel-body">
-					<ul>
-					{% for post in site.posts %}
-					  {% capture currentyear %}{{post.date | date: "%B %Y"}}{% endcapture %}
-					  {% if currentyear != year2 %}
-						<li><a href="#{{ currentyear }}">{{ currentyear}}</a></li>
-						{% capture year2 %}{{currentyear}}{% endcapture %} 
-					  {% endif %}
-					{% endfor %}
-					</ul>
 					</div>
 				</div>
 			</div>

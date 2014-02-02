@@ -119,9 +119,13 @@ if (hs.addSlideshow) hs.addSlideshow({
 					<ul class="nav navbar-nav">
 					<ul class="nav navbar-nav">
 						<li {% if page.title == 'HOME' %} class='active' {% endif %}><a href="{{ site.baseurl }}/index.html">HOME</a></li>
-						<li {% if page.title == 'ITERATIONS' %} class='active' {% endif %}><a href="{{ site.baseurl }}/iterations.html">ITERTATIONS</a></li>
 						<li {% if page.title == 'ABOUT' %} class='active' {% endif %}><a href="{{ site.baseurl }}/about.html">ABOUT</a></li>
 					</ul>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="javascript:mainService.deleteCredentials();">LOGOUT</a>
+						</li>
 					</ul>
 				</div>
 			</nav>

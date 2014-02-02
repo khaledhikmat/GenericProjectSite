@@ -1,6 +1,0 @@
-<!-- Assign the variable 'story' based on the param -->
-{% for item in site.data.userstories %}
-	{% if item.identifier == include.param %}
-		{% assign story = item %}
-	{% endif %}
-{% endfor %}
