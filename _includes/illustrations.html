@@ -1,7 +1,7 @@
 <div class="row">
 <div class="highslide-gallery">
 {% for illustration in include.param %}
-{% assign myIllusration =  illustration | split: "," 
+{% assign myIllusration =  illustration | split: "," %}
 <div {% if include.param.size == 1 %} class="col-md-12" {% elsif include.param.size == 2 %} class="col-md-6" {% else %} class="col-md-4" {% endif %}>
 <a href="http://placehold.it/800/400/" class="highslide" onclick="return hs.expand(this)">
 	<img src="http://placehold.it/200/100/" alt="Highslide JS"

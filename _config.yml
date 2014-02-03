@@ -3,3 +3,4 @@ markdown: redcarpet
 pygments: true
 permalink: /:year-:month-:day/:title
 baseurl: /GenericProjectSite
+encoding: utf-8
